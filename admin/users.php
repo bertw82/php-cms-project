@@ -25,14 +25,41 @@
         <div class="row">
           <div class="col-lg-12">
             <h1 class="page-header">
-                Welcome to Admin
-                <small><?php echo $_SESSION['user_name']; ?></small>
+                Admin Panel
+                <small>Bert Witzel</small>
             </h1>
+            
+            <?php 
+            if(isset($_GET['source'])){
+              $source = $_GET['source'];
+            } else {
+              $source = '';
+            }
+
+            switch($source) {
+              case 'add_user';
+              include "includes/add_user.php";
+              break;
+
+              case 'edit_user';
+              include "includes/edit_user.php";
+              break;
+
+              case 14;
+              echo "14";
+              break;
+              // display all the time unless meeting cases above
+              default: 
+              include "includes/view_all_users.php";
+              break;
+            }
+
+
+            ?>
+
           </div>
         </div>
         <!-- /.row -->
-
-        <?php include "includes/widget_chart.php" ?>
 
       </div>
       <!-- /.container-fluid -->

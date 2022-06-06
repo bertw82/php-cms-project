@@ -1,4 +1,4 @@
-<?php include "includes/header.php" ?>
+<?php include "includes/admin_header.php" ?>
 
 <body>
 
@@ -8,11 +8,11 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <!-- Brand and toggle get grouped for better mobile display -->
       
-      <?php include "includes/main_nav.php" ?> 
+      <?php include "includes/admin_main_nav.php" ?> 
 
       <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
       
-      <?php include "includes/sidebar.php" ?>
+      <?php include "includes/admin_sidebar.php" ?>
 
       <!-- /.navbar-collapse -->
     </nav>
@@ -25,7 +25,7 @@
         <div class="row">
           <div class="col-lg-12">
             <h1 class="page-header">
-                Admin
+                Admin Panel
                 <small>Bert Witzel</small>
             </h1>
 
@@ -91,4 +91,4 @@
   </div>
   <!-- /#wrapper -->
 
-  <?php include "includes/footer.php" ?>
+  <?php include "includes/admin_footer.php" ?>

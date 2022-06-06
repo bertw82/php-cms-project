@@ -1,4 +1,11 @@
 <?php 
+// confirm connection
+function confirm($query_result){
+  global $connection;
+  if(!$query_result){
+    die("query failed ." . mysqli_error($connection));
+  }
+}
 
 // Post a new category 
 function insert_categories() {
