@@ -23,22 +23,25 @@ if(isset($_POST['login'])){
     $db_user_lastname = $row['user_lastname'];
     $db_user_role = $row['user_role'];
     $db_user_email = $row['user_email'];
+
   }
 
-  if($username === $db_user_name && $password === $db_user_password) {
-       // set sessions
-       $_SESSION['user_name'] = $db_user_name;
-       $_SESSION['user_firstname'] = $db_user_firstname;
-       $_SESSION['user_lastname'] = $db_user_lastname;
-       $_SESSION['user_role'] = $db_user_role;
-      if($_SESSION['user_role'] === 'admin'){
-        header("Location: ../admin");
-      } elseif($_SESSION['user_role'] === 'subscriber'){
-        header("Location: ../index.php");
-      }
-  } else {
-    header("Location: ../index.php");
+  if(password_verify($password, $db_user_password)){
+    // if($username === $db_user_name && $password === $db_user_password) {
+
+      // set sessions
+      $_SESSION['user_name'] = $db_user_name;
+      $_SESSION['user_firstname'] = $db_user_firstname;
+      $_SESSION['user_lastname'] = $db_user_lastname;
+      $_SESSION['user_role'] = $db_user_role;
+     if($_SESSION['user_role'] === 'admin'){
+       header("Location: ../admin");
+     } elseif($_SESSION['user_role'] === 'subscriber'){
+       header("Location: ../index.php");
+     }
+    } else {
+      header("Location: ../index.php");
+    }
   }
-}
 
 ?>

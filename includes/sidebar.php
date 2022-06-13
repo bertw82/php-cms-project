@@ -18,7 +18,7 @@
 
     <!-- Login -->
     <div class="well" id="loginDiv">
-      <h4>Login</h4>
+      <h4>Login or <a href="registration.php">Sign Up</a></h4>
       <form action="includes/login.php" method="post">
       <div class="form-group">
           <input name="username" type="text" class="form-control" placeholder="Enter Username">

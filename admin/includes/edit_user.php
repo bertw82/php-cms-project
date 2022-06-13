@@ -1,3 +1,4 @@
+
 <?php
 
   if(isset($_GET['user_id'])){
@@ -20,7 +21,6 @@
   if(isset($_POST['update_user'])){
     
     $user_name = $_POST['user_name'];
-    $user_password = $_POST['user_password'];
     $user_firstname = $_POST['user_firstname'];
     $user_lastname = $_POST['user_lastname'];
     $user_role = $_POST['user_role'];
@@ -38,20 +38,39 @@
       }
     }
 
-    // one long concatenated query string
-    $query = "UPDATE users SET ";
-    $query .= "user_name = '{$user_name}', ";
-    $query .= "user_password = '{$user_password}', ";
-    $query .= "user_firstname = '{$user_firstname}', ";
-    $query .= "user_lastname = '{$user_lastname}', ";
-    $query .= "user_role = '{$user_role}', ";
-    $query .= "user_email = '{$user_email}', ";
-    $query .= "user_image = '{$user_image}' ";
-    $query .= "WHERE user_id = '{$the_get_id}' ";
+    // check if password field is not empty, then hash the password if password is updated, or leave as is
+    if(!empty($_POST['user_password'])){
+      $password = $_POST['user_password'];
+      $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $update_user = mysqli_query($connection, $query); 
-    confirm($update_user);
-    header("Location: users.php");
+      $query = "UPDATE users SET ";
+      $query .= "user_name = '{$user_name}', ";
+      $query .= "user_password = '{$hashed_password}', ";
+      $query .= "user_firstname = '{$user_firstname}', ";
+      $query .= "user_lastname = '{$user_lastname}', ";
+      $query .= "user_role = '{$user_role}', ";
+      $query .= "user_email = '{$user_email}', ";
+      $query .= "user_image = '{$user_image}' ";
+      $query .= "WHERE user_id = '{$the_get_id}' ";
+
+      $update_user = mysqli_query($connection, $query); 
+      confirm($update_user);
+      header("Location: users.php");
+    } else {
+      $query = "UPDATE users SET ";
+      $query .= "user_name = '{$user_name}', ";
+      $query .= "user_firstname = '{$user_firstname}', ";
+      $query .= "user_lastname = '{$user_lastname}', ";
+      $query .= "user_role = '{$user_role}', ";
+      $query .= "user_email = '{$user_email}', ";
+      $query .= "user_image = '{$user_image}' ";
+      $query .= "WHERE user_id = '{$the_get_id}' ";
+
+      $update_user = mysqli_query($connection, $query); 
+      confirm($update_user);
+      header("Location: users.php");
+    }
+
   }
 ?>
 
@@ -103,8 +122,8 @@
   </div>
 
   <div class="form-group">
-    <label for="title">Password</label>
-    <input value="<?php echo $user_password;?>" type="password" class="form-control" name="user_password">
+    <label for="title">Add New Password or Leave Blank</label>
+    <input value="" type="password" class="form-control" name="user_password">
   </div>
 
   <div class="form-group">

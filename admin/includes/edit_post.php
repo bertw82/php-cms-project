@@ -3,6 +3,7 @@
   if(isset($_GET['p_id'])){
     $the_get_id = $_GET['p_id'];
   }
+
   $query = "SELECT * FROM posts WHERE post_id = $the_get_id";
   $select_posts_by_id = mysqli_query($connection, $query); 
 
@@ -17,9 +18,11 @@
     $post_tags = $row['post_tags'];
     $post_comment_count = $row['post_comment_count'];
     $post_date = $row['post_date'];
+    $post_view_count = $row['post_view_count'];
   }
   confirm($query);
 
+  // update post query
   if(isset($_POST['update_post'])){
     
     $post_author = $_POST['post_author'];
@@ -41,7 +44,13 @@
       }
     }
 
-    // one long concatenated query string
+    if(isset($_POST['post_view_count'])){
+      $new_post_view_count = 0;
+    } else {
+      $new_post_view_count = $post_view_count;
+    }
+
+    // update post
     $query = "UPDATE posts SET ";
     $query .= "post_title = '{$post_title}', ";
     $query .= "post_category_id = '{$post_category_id}', ";
@@ -50,15 +59,16 @@
     $query .= "post_status = '{$post_status}', ";
     $query .= "post_tags = '{$post_tags}', ";
     $query .= "post_content = '{$post_content}', ";
-    $query .= "post_image = '{$post_image}' ";
+    $query .= "post_image = '{$post_image}', ";
+    $query .= "post_view_count = {$new_post_view_count} ";
     $query .= "WHERE post_id = {$the_get_id} ";
 
     $update_post = mysqli_query($connection, $query); 
     confirm($update_post);
     header("Location: posts.php?source=edit_post_success&p_id={$the_get_id}");
   }
-?>
 
+?>
 
 <form action="" method="post" enctype="multipart/form-data">
   <!-- enctype is for images -->
@@ -112,6 +122,14 @@
   <div class="form-group">
     <label for="title">Post Tags</label>
     <input value="<?php echo $post_tags;?>" type="text" class="form-control" name="post_tags">
+  </div>
+
+  <div class="form-group">
+    <label for="title">Post View Count: <?php echo $post_view_count;?></label>
+    <div>
+      <label style="font-weight:normal;">Reset to Zero?</label>
+      <input value="" type="checkbox" class="form-check_input" name="post_view_count">
+    </div>
   </div>
 
   <div class="form-check">
