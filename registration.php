@@ -5,16 +5,11 @@
 
 if(isset($_POST['submit'])){
 
-  $username = $_POST['username'];
-  $first_name = $_POST['first_name'];
-  $last_name = $_POST['last_name'];
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
-  // escape the strings
-  $username = mysqli_real_escape_string($connection, $username);
-  $email = mysqli_real_escape_string($connection, $email);
-  $password = mysqli_real_escape_string($connection, $password);
+  $username = escape($_POST['username']);
+  $first_name = escape($_POST['first_name']);
+  $last_name = escape($_POST['last_name']);
+  $email = escape($_POST['email']);
+  $password = escape($_POST['password']);
 
   // encrypt password using password_hash
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -26,7 +21,13 @@ if(isset($_POST['submit'])){
   $register_user_query = mysqli_query($connection, $query);
 
   confirm($register_user_query);
-  // header("Location: index.php");
+  // set sessions
+  $_SESSION['user_name'] = $username;
+  $_SESSION['user_firstname'] = $first_name;
+  $_SESSION['user_lastname'] = $last_name;
+  $_SESSION['user_role'] = 'subscriber';
+
+  header("Location: index.php");
 }
 
 ?>

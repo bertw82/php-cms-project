@@ -1,5 +1,5 @@
 <?php 
-
+// bulk options checkbox
 if(isset($_POST['checkBoxArray'])){
   foreach($_POST['checkBoxArray'] as $postValueId){
     $bulk_options = $_POST['bulk_options'];
@@ -62,6 +62,7 @@ if(isset($_POST['checkBoxArray'])){
   <tbody>
 
   <?php 
+  // display all posts query
     $query = "SELECT * FROM posts";
     $select_categories = mysqli_query($connection, $query); 
   
@@ -88,8 +89,10 @@ if(isset($_POST['checkBoxArray'])){
       echo "<td>{$post_author}</td>";
       echo "<td>{$post_title}</td>";
 
+      // query for categories
       $query = "SELECT * FROM categories WHERE cat_id = $post_category_id";
       $select_categories_id = mysqli_query($connection, $query); 
+      confirm($select_categories_id);
 
       while($row = mysqli_fetch_assoc($select_categories_id)) {
         $cat_id = $row['cat_id'];
@@ -100,7 +103,14 @@ if(isset($_POST['checkBoxArray'])){
       echo "<td>{$post_status}</td>";
       echo "<td><img style='width:100px'; src='../images/$post_image' alt='image'></td>";
       echo "<td>{$post_tags}</td>";
-      echo "<td>{$post_comment_count}</td>";
+
+      // query for comment count
+      $query = "SELECT * FROM comments WHERE comment_post_id = $post_id";
+      $send_comment_query = mysqli_query($connection, $query);
+      confirm($send_comment_query);
+      $count_comments = mysqli_num_rows($send_comment_query);
+
+      echo "<td><a href='comments.php?source=post_comments&id=$post_id'>{$count_comments}</a></td>";
       echo "<td>{$post_date}</td>";
       echo "<td>{$post_views}</td>";
       echo "<td><a href='../post.php?p_id={$post_id}'>View Post</a></td>";
@@ -116,9 +126,9 @@ if(isset($_POST['checkBoxArray'])){
 </form>
 
 <?php 
-
+// delete a post query
   if(isset($_GET['delete'])){
-    $the_post_id = $_GET['delete'];
+    $the_post_id = escape($_GET['delete']);
     $query = "DELETE FROM posts WHERE post_id = {$the_post_id}";
     $delete_query = mysqli_query($connection, $query);
     confirm($query);

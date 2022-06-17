@@ -6,8 +6,6 @@
 if(!isset($_SESSION['user_role'])){
   header("Location: ../index.php");
 } 
-
-
 ?>
 
 <?php include "../includes/db.php"; ?>

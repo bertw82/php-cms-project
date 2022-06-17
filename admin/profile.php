@@ -3,6 +3,7 @@
 <?php 
 
 if(isset($_SESSION['user_name'])){
+  // display profile of the user
   $user_name = $_SESSION['user_name'];
   $query = "SELECT * FROM users WHERE user_name = '{$user_name}' ";
   $select_user_profile_query = mysqli_query($connection, $query);
@@ -25,15 +26,14 @@ if(isset($_SESSION['user_name'])){
 <?php 
 // edit profile
 if(isset($_POST['update_profile'])){
-    
-  $user_name = $_POST['user_name'];
-  $user_password = $_POST['user_password'];
-  $user_firstname = $_POST['user_firstname'];
-  $user_lastname = $_POST['user_lastname'];
-  $user_role = $_POST['user_role'];
-  $user_email = $_POST['user_email'];
-  $user_image = $_FILES['image']['name'];
-  $user_image_temp = $_FILES['image']['tmp_name'];
+  $user_name = escape($_POST['user_name']);
+  $user_password = escape($_POST['user_password']);
+  $user_firstname = escape($_POST['user_firstname']);
+  $user_lastname = escape($_POST['user_lastname']);
+  $user_role = escape($_POST['user_role']);
+  $user_email = escape($_POST['user_email']);
+  $user_image = escape($_FILES['image']['name']);
+  $user_image_temp = escape($_FILES['image']['tmp_name']);
 
   move_uploaded_file($user_image_temp, "../images/$user_image");
 

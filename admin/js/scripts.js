@@ -25,7 +25,7 @@ function load() {
   body.appendChild(loadScreenDiv);
   document.createElement('div');
   fadeOut();
-  setInterval(remove, 600);
+  setInterval(remove, 500);
 }
 
 // fade out loader 

@@ -17,8 +17,8 @@
       <?php
 
       if(isset($_GET['p_id'])){
-        $the_post_id = $_GET['p_id'];
-        $the_post_author = $_GET['author'];
+        $the_post_id = escape($_GET['p_id']);
+        $the_post_author = escape($_GET['author']);
 
       }
 

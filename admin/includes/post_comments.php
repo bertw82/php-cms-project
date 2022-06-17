@@ -1,3 +1,8 @@
+<div style="margin-bottom: 1.5em;">
+<a class="btn btn-success" href="./posts.php" role="button">View All Posts</a>
+<a class="btn btn-primary" href="./comments.php" role="button">View All Comments</a>
+</div>
+
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
@@ -17,8 +22,9 @@
   <tbody>
 
   <?php 
-    $query = "SELECT * FROM comments";
+    $query = "SELECT * FROM comments WHERE comment_post_id = " . escape($_GET['id']) . " ";
     $select_comments = mysqli_query($connection, $query); 
+    confirm($select_comments);
 
     while($row = mysqli_fetch_assoc($select_comments)) {
       $comment_id = $row['comment_id'];
@@ -45,9 +51,10 @@
         echo "<td><a href='../post.php?p_id=$post_id'>{$post_title}</a></td>";
       }
       echo "<td>{$comment_date}</td>";
-      echo "<td><a href='comments.php?approve={$comment_id}'>Approve</a></td>";
-      echo "<td><a href='comments.php?decline={$comment_id}'>Decline</a></td>";
-      echo "<td><a href='comments.php?delete={$comment_id}'>Delete</a></td>";
+
+      echo "<td><a href='comments.php?source=approve&approve=$comment_id&id=" . $_GET['id'] . "'>Approve</a></td>";
+      echo "<td><a href='comments.php?source=decline&&decline=$comment_id&id=" . $_GET['id'] . " '>Decline</a></td>";
+      echo "<td><a href='comments.php?source=delete&delete=$comment_id&id=" . $_GET['id'] . "  '>Delete</a></td>";
       echo "</tr>";
     }
     confirm($select_comments);
@@ -63,7 +70,7 @@
     $query = "UPDATE comments SET comment_status = 'Approved' WHERE comment_id = $the_comment_id";
     $approve_comment_query = mysqli_query($connection, $query);
     confirm($approve_comment_query);
-    header("Location: comments.php"); //reload the query
+    header("Location: comments.php?source=post_comments&id=" . $_GET['id'] . " ");
   }
 
   // DECLINE to approve comment
@@ -72,7 +79,7 @@
     $query = "UPDATE comments SET comment_status = 'Declined' WHERE comment_id = $the_comment_id";
     $decline_comment_query = mysqli_query($connection, $query);
     confirm($decline_comment_query);
-    header("Location: comments.php"); //reload the query
+    header("Location: comments.php?source=post_comments&id=" . $_GET['id'] . " ");
   }
 
   // delete comment
@@ -81,7 +88,9 @@
     $query = "DELETE FROM comments WHERE comment_id = {$the_comment_id}";
     $delete_query = mysqli_query($connection, $query);
     confirm($delete_query);
-    header("Location: comments.php"); //reload the query
+    header("Location: comments.php?source=post_comments&id=" . $_GET['id'] . " ");
   }
 
 ?>
+
+

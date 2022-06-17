@@ -1,3 +1,4 @@
+
 <?php 
 // confirm connection
 function confirm($query_result){
@@ -17,4 +18,11 @@ function console_log($output, $with_script_tags = true) {
     }
     echo $js_code;
 }
+
+// escape strings to prevent SQL injection
+function escape($string){
+  global $connection;
+  return mysqli_real_escape_string($connection, trim($string));
+}
+
 ?>

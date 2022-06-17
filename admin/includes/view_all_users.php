@@ -29,7 +29,6 @@
       $user_image = $row['user_image'];
       $user_role = $row['user_role'];
 
-      
       echo "<tr>";      
       echo "<td>{$user_id}</td>";
       echo "<td>{$user_name}</td>";
@@ -50,11 +49,19 @@
 
   // delete user
   if(isset($_GET['delete'])){
-    $the_user_id = $_GET['delete'];
-    $query = "DELETE FROM users WHERE user_id = {$the_user_id}";
-    $delete_user_query = mysqli_query($connection, $query);
-    confirm($delete_user_query);
-    header("Location: users.php"); //reload the query
+
+    if(isset($_SESSION['user_role'])){
+
+      if($_SESSION['user_role'] === 'admin'){
+      $the_user_id = escape($_GET['delete']) ;
+      $query = "DELETE FROM users WHERE user_id = {$the_user_id}";
+      $delete_user_query = mysqli_query($connection, $query);
+      confirm($delete_user_query);
+      header("Location: users.php"); //reload the query
+      }
+    } else {
+      header("Location: ../forbidden.php");
+    }
   }
 
 ?>

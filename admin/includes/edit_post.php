@@ -1,9 +1,9 @@
 <?php
 
   if(isset($_GET['p_id'])){
-    $the_get_id = $_GET['p_id'];
+    $the_get_id = escape($_GET['p_id']);
   }
-
+  // edit specific post
   $query = "SELECT * FROM posts WHERE post_id = $the_get_id";
   $select_posts_by_id = mysqli_query($connection, $query); 
 
@@ -25,14 +25,14 @@
   // update post query
   if(isset($_POST['update_post'])){
     
-    $post_author = $_POST['post_author'];
-    $post_title = $_POST['post_title'];
-    $post_category_id = $_POST['post_category'];
-    $post_status = $_POST['post_status'];
-    $post_image = $_FILES['image']['name'];
-    $post_image_temp = $_FILES['image']['tmp_name'];
-    $post_content = $_POST['post_content'];
-    $post_tags = $_POST['post_tags'];
+    $post_author = escape($_POST['post_author']);
+    $post_title = escape($_POST['post_title']);
+    $post_category_id = escape($_POST['post_category']);
+    $post_status = escape($_POST['post_status']);
+    $post_image = escape($_FILES['image']['name']);
+    $post_image_temp = escape($_FILES['image']['tmp_name']);
+    $post_content = escape($_POST['post_content']);
+    $post_tags = escape($_POST['post_tags']);
 
     move_uploaded_file($post_image_temp, "../images/$post_image");
 
@@ -80,20 +80,17 @@
   <div class="form-group">
     <label for="post_category">Post Category</label>
     <select name="post_category" id="post_category">
-      <?php 
-    
-        $query = "SELECT * FROM categories";
-        $select_categories = mysqli_query($connection, $query); 
-
-        // confirm($select_categories);
-
-        while($row = mysqli_fetch_assoc($select_categories)) {
-          $cat_id = $row['cat_id'];
-          $cat_title = $row['cat_title'];
-          echo "<option value='{$cat_id}'>{$cat_title}</option>";
-        }
-      ?>
+    <?php 
   
+      $query = "SELECT * FROM categories";
+      $select_categories = mysqli_query($connection, $query); 
+
+      while($row = mysqli_fetch_assoc($select_categories)) {
+        $cat_id = $row['cat_id'];
+        $cat_title = $row['cat_title'];
+        echo "<option value='{$cat_id}'>{$cat_title}</option>";
+      }
+    ?>
     </select>
   </div>
 

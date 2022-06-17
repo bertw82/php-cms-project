@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -18,15 +17,6 @@
 
 <?php 
 
-// $query = "SELECT * FROM categories";
-// $select_all_categories_query = mysqli_query($connection, $query);
-
-// while($row = mysqli_fetch_assoc($select_all_categories_query)) {
-//   $cat_title = $row['cat_title'];
-        
-//         echo "<li><a href='#'>{$cat_title}</a></li>";
-// }
-
 // if no one is logged in, show login link
 if(!isset($_SESSION['user_role'])){
    echo "<li><a href='#loginDiv'>Login</a></li>";
@@ -42,10 +32,12 @@ if(isset($_SESSION['user_role'])){
 
 // if user show the edit post button 
 if(isset($_SESSION['user_role'])){
+  if($_SESSION['user_role'] === 'admin'){
   if(isset($_GET['p_id'])){
-    $the_get_id = $_GET['p_id'];
+    $the_get_id = escape($_GET['p_id']);
     echo "<li><a href='admin/posts.php?source=edit_post&p_id={$the_get_id}'>Edit Post</a></li>";
   }
+}
 }
 
 // show nav options for admin

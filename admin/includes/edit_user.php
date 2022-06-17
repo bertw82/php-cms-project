@@ -1,8 +1,8 @@
 
 <?php
-
+  // get specific user
   if(isset($_GET['user_id'])){
-    $the_get_id = $_GET['user_id'];
+    $the_get_id = escape($_GET['user_id']);
   }
   $query = "SELECT * FROM users WHERE user_id = $the_get_id";
   $select_users_by_id_query = mysqli_query($connection, $query); 
@@ -18,15 +18,16 @@
     $user_image = $row['user_image'];
   }
 
+  // update/edit user
   if(isset($_POST['update_user'])){
     
-    $user_name = $_POST['user_name'];
-    $user_firstname = $_POST['user_firstname'];
-    $user_lastname = $_POST['user_lastname'];
-    $user_role = $_POST['user_role'];
-    $user_email = $_POST['user_email'];
-    $user_image = $_FILES['image']['name'];
-    $user_image_temp = $_FILES['image']['tmp_name'];
+    $user_name = escape($_POST['user_name']);
+    $user_firstname = escape($_POST['user_firstname']);
+    $user_lastname = escape($_POST['user_lastname']);
+    $user_role = escape($_POST['user_role']);
+    $user_email = escape($_POST['user_email']);
+    $user_image = escape($_FILES['image']['name']);
+    $user_image_temp = escape($_FILES['image']['tmp_name']);
 
     move_uploaded_file($user_image_temp, "../images/$user_image");
 
@@ -40,7 +41,7 @@
 
     // check if password field is not empty, then hash the password if password is updated, or leave as is
     if(!empty($_POST['user_password'])){
-      $password = $_POST['user_password'];
+      $password = escape($_POST['user_password']);
       $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
       $query = "UPDATE users SET ";

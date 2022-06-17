@@ -45,9 +45,22 @@
               include "includes/edit_post.php";
               break;
 
-              case 14;
-              echo "14";
+              case 'post_comments';
+              include "includes/post_comments.php";
               break;
+
+              case 'approve';
+              include "includes/post_comments.php";
+              break;
+
+              case 'decline';
+              include "includes/post_comments.php";
+              break;
+
+              case 'delete';
+              include "includes/post_comments.php";
+              break;
+              
               // display all the time unless meeting cases above
               default: 
               include "includes/view_all_comments.php";

@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <!-- Header -->
 <?php include "includes/header.php"; ?>
 <!-- Database  -->
@@ -17,7 +18,7 @@
       <?php
 
       if(isset($_GET['p_id'])){
-        $the_post_id = $_GET['p_id'];
+        $the_post_id = escape($_GET['p_id']);
 
         // post view count query
         $view_query = "UPDATE posts SET post_view_count = post_view_count + 1 WHERE post_id = $the_post_id";
@@ -40,12 +41,6 @@
           
           ?>
 
-
-          <!-- <h1 class="page-header">
-              Page Heading
-              <small>Secondary Text</small>
-          </h1> -->
-
           <!-- First Blog Post -->
           <h2>
               <a href="#"><?php echo $post_title ?></a>
@@ -58,7 +53,7 @@
           <!-- display image from database, although in images folder -->
           <img class="img-responsive" src="images/<?php echo $post_image;?>" alt="">
           <hr>
-          <p><?php echo $post_content ?></p>
+          <p><?php echo $post_content; ?></p>
 
           <hr>
         
@@ -75,26 +70,31 @@
       <?php 
         if(isset($_POST['create_comment'])){
 
-          $the_post_id = $_GET['p_id'];
-          $comment_author = $_POST['comment_author'];
-          $comment_email = $_POST['comment_email'];
-          $comment_content = $_POST['comment_content'];
+          if(($_SESSION['user_role'] === 'admin') || ($_SESSION['user_role'] === 'subscriber')){
 
-          // if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
+            $the_post_id = escape($_GET['p_id']);
+            $comment_author = escape($_POST['comment_author']);
+            $comment_email = escape($_POST['comment_email']);
+            $comment_content = escape($_POST['comment_content']);
 
-          $query = "INSERT INTO comments (comment_post_id,comment_author, comment_email, comment_content, comment_status, comment_date)";
+            $query = "INSERT INTO comments (comment_post_id,comment_author, comment_email, comment_content, comment_status, comment_date)";
 
-          $query .= "VALUES ($the_post_id,'{$comment_author}', '{$comment_email}', '{$comment_content}', 'NOT APPROVED', now())";
+            $query .= "VALUES ($the_post_id,'{$comment_author}', '{$comment_email}', '{$comment_content}', 'NOT APPROVED', now())";
 
-          $create_comment_query = mysqli_query($connection, $query);
-          confirm($create_comment_query);
+            $create_comment_query = mysqli_query($connection, $query);
+            confirm($create_comment_query);
 
-          $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
-          $query .= "WHERE post_id = $the_post_id ";
+            $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
+            $query .= "WHERE post_id = $the_post_id ";
 
-          $update_comment_count = mysqli_query($connection, $query);
-          confirm($update_comment_count);
-          header("Location: post.php?p_id=$the_post_id");
+            $update_comment_count = mysqli_query($connection, $query);
+            confirm($update_comment_count);
+            header("Location: comment_approval.php?p_id=$the_post_id");
+          } else {
+            header("Location: comment_error.php?p_id=$the_post_id");
+
+          }
+          
         }
       
       ?>

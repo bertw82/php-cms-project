@@ -11,7 +11,7 @@ function confirm($query_result){
 function insert_categories() {
   global $connection;
   if(isset($_POST['submit'])) {
-    $cat_title = $_POST['cat_title'];
+    $cat_title = escape($_POST['cat_title']);
     if($cat_title == '' || empty($cat_title)) {
       echo "This field should not be empty";
     } else {
@@ -61,7 +61,7 @@ function delete_categories() {
 function update_categories() {
   global $connection;
   if(isset($_POST['update_category'])) {
-    $the_cat_title = $_POST['cat_title'];
+    $the_cat_title = escape($_POST['cat_title']);
     $cat_id = $_GET['edit'];
     $query = "UPDATE categories SET cat_title = '{$the_cat_title}' WHERE cat_id = {$cat_id}";
     $update_query = mysqli_query($connection, $query);
@@ -69,6 +69,12 @@ function update_categories() {
       die("Query failed" . mysqli_error($connection));
     }
   }
+}
+
+// escape strings to prevent SQL injection
+function escape($string){
+  global $connection;
+  return mysqli_real_escape_string($connection, trim($string));
 }
  
 ?>
