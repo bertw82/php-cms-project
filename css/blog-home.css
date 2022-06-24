@@ -11,3 +11,17 @@ body {
 footer {
     margin: 50px 0;
 }
+
+/* 
+@media (max-width: 992px){
+  .flex {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+@media (min-width: 993px) {
+  .flex {
+    display: flex !important;
+  }
+} */

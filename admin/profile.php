@@ -45,20 +45,40 @@ if(isset($_POST['update_profile'])){
     }
   }
 
-  // one long concatenated query string
-  $query = "UPDATE users SET ";
-  $query .= "user_name = '{$user_name}', ";
-  $query .= "user_password = '{$user_password}', ";
-  $query .= "user_firstname = '{$user_firstname}', ";
-  $query .= "user_lastname = '{$user_lastname}', ";
-  $query .= "user_role = '{$user_role}', ";
-  $query .= "user_email = '{$user_email}', ";
-  $query .= "user_image = '{$user_image}' ";
-  $query .= "WHERE user_name = '{$user_name}' ";
+  // check for new password
+  if(!empty($_POST['user_password'])){
+    $password = escape($_POST['user_password']);
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-  $update_user = mysqli_query($connection, $query); 
-  confirm($update_user);
-  header("Location: users.php");
+    $query = "UPDATE users SET ";
+    $query .= "user_name = '{$user_name}', ";
+    $query .= "user_password = '{$hashed_password}', ";
+    $query .= "user_firstname = '{$user_firstname}', ";
+    $query .= "user_lastname = '{$user_lastname}', ";
+    $query .= "user_role = '{$user_role}', ";
+    $query .= "user_email = '{$user_email}', ";
+    $query .= "user_image = '{$user_image}' ";
+    $query .= "WHERE user_name = '{$user_name}' ";
+
+    $update_user = mysqli_query($connection, $query); 
+    confirm($update_user);
+    header("Location: users.php");
+
+  } else {
+
+    $query = "UPDATE users SET ";
+    $query .= "user_name = '{$user_name}', ";
+    $query .= "user_firstname = '{$user_firstname}', ";
+    $query .= "user_lastname = '{$user_lastname}', ";
+    $query .= "user_role = '{$user_role}', ";
+    $query .= "user_email = '{$user_email}', ";
+    $query .= "user_image = '{$user_image}' ";
+    $query .= "WHERE user_name = '{$user_name}' ";
+  
+    $update_user = mysqli_query($connection, $query); 
+    confirm($update_user);
+    header("Location: users.php");
+  }
 }
 ?>
 
@@ -138,8 +158,8 @@ if(isset($_POST['update_profile'])){
   </div>
 
   <div class="form-group">
-    <label for="title">Password</label>
-    <input value="<?php echo $user_password;?>" type="password" class="form-control" name="user_password">
+    <label for="title">Add New Password or Leave Blank</label>
+    <input value="" type="password" class="form-control" name="user_password">
   </div>
 
   <div class="form-group">

@@ -79,7 +79,7 @@
 
             $query = "INSERT INTO comments (comment_post_id,comment_author, comment_email, comment_content, comment_status, comment_date)";
 
-            $query .= "VALUES ($the_post_id,'{$comment_author}', '{$comment_email}', '{$comment_content}', 'NOT APPROVED', now())";
+            $query .= "VALUES ($the_post_id,'{$comment_author}', '{$comment_email}', '{$comment_content}', 'Declined', now())";
 
             $create_comment_query = mysqli_query($connection, $query);
             confirm($create_comment_query);
@@ -139,15 +139,13 @@
 
           <!-- Comment -->
           <div class="media">
-              <a class="pull-left" href="#">
-                  <img class="media-object" src="https://via.placeholder.com/64" alt="">
-              </a>
-              <div class="media-body">
-                  <h4 class="media-heading"><?php echo $comment_author; ?>
-                      <small><?php echo $comment_date; ?></small>
-                  </h4>
-                  <?php echo $comment_content; ?>
-              </div>
+            <div class="media-body">
+              <h3 style="text-decoration: underline;">Comments</h3>
+                <h4 class="media-heading"><?php echo $comment_author; ?>
+                    <small><?php echo $comment_date; ?></small>
+                </h4>
+                <?php echo $comment_content; ?>
+            </div>
           </div>
 
         <?php  } ?>

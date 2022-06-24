@@ -1,4 +1,5 @@
 <?php  include "includes/header.php"; ?>
+<?php include "includes/db.php"; ?>
 
 <div class="container">
 <h2>I'm sorry, you must be logged in to leave a comment</h2>

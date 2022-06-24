@@ -128,12 +128,18 @@ if(isset($_POST['checkBoxArray'])){
 <?php 
 // delete a post query
   if(isset($_GET['delete'])){
+
+    if($_SESSION['user_role'] === 'admin'){
     $the_post_id = escape($_GET['delete']);
     $query = "DELETE FROM posts WHERE post_id = {$the_post_id}";
     $delete_query = mysqli_query($connection, $query);
     confirm($query);
     header("Location: posts.php"); 
     exit;
+    } else {
+      header("Location: ../forbidden.php");
+
+    }
   }
 
 ?>

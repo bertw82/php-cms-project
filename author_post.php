@@ -36,6 +36,7 @@
           ?>
 
           <!-- First Blog Post -->
+          <h1>All posts by <?php echo $post_author ?></h1>
           <h2>
               <a href="#"><?php echo $post_title ?></a>
           </h2>

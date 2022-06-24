@@ -42,5 +42,6 @@
 
   </div>
   <!-- /#wrapper -->
+  <script src="js/loader.js"></script>
 
   <?php include "includes/admin_footer.php" ?>

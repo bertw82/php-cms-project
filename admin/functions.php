@@ -76,5 +76,21 @@ function escape($string){
   global $connection;
   return mysqli_real_escape_string($connection, trim($string));
 }
+
+function recordCount($table){
+  global $connection;
+  $query = "SELECT * FROM " . $table;
+  $select_all = mysqli_query($connection, $query);
+  $result = mysqli_num_rows($select_all);
+  confirm($result);
+  return $result;
+}
+
+function checkStatus($table, $column, $status){
+  global $connection;
+  $query = "SELECT * FROM $table WHERE $column = '$status' ";
+  $select_all_published_posts = mysqli_query($connection, $query);
+  return mysqli_num_rows($select_all_published_posts);
+}
  
 ?>

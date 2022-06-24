@@ -38,7 +38,7 @@
       echo "<td><img style='width:100px'; src='../images/$user_image' alt='image'></td>";
       echo "<td>{$user_role}</td>";
       echo "<td><a href='users.php?source=edit_user&user_id={$user_id}'>Edit</a></td>";
-      echo "<td><a href='users.php?delete={$user_id}'>Delete</a></td>";
+      echo "<td><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \" href='users.php?delete={$user_id}'>Delete</a></td>";
       echo "</tr>";
     }
   ?>

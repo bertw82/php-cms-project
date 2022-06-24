@@ -23,6 +23,10 @@
           $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id";
           $select_all_posts_query = mysqli_query($connection, $query);
 
+          if(mysqli_num_rows($select_all_posts_query) === 0) {
+            echo "<h1 class='text-center'>No Posts Available</h1>";
+          } 
+
           while($row = mysqli_fetch_assoc($select_all_posts_query)) {
             $post_id = $row['post_id'];
             $post_title = $row['post_title'];
@@ -32,14 +36,8 @@
             $post_content = substr($row['post_content'],0,100);
 
             $post_tags = $row['post_tags'];
-            
+          
             ?>
-
-
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-            </h1>
 
             <!-- First Blog Post -->
             <h2>
@@ -54,21 +52,11 @@
             <img class="img-responsive" src="images/<?php echo $post_image;?>" alt="">
             <hr>
             <p><?php echo $post_content ?></p>
-            <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id; ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
             <hr>
-          
-          <?php } ?>
-
-          <!-- Pager -->
-          <ul class="pager">
-              <li class="previous">
-                  <a href="#">&larr; Older</a>
-              </li>
-              <li class="next">
-                  <a href="#">Newer &rarr;</a>
-              </li>
-          </ul>
+           
+          <?php }  ?>
 
       </div> <!-- /.col-md-8 -->
 
